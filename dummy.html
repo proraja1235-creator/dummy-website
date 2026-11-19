@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Loose Spoke Cycle Co-op</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#dfe9f2; --surface:#f3f8fc; --ink:#16263d; --muted:#51647c;
+  --accent:#ffd23f; --accent-ink:#16263d; --line:#b8c9da;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#13202f; --surface:#1b2c40; --ink:#e8f0f8; --muted:#9fb3c8;
+    --accent:#ffd23f; --accent-ink:#16263d; --line:#2f4560;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#13202f; --surface:#1b2c40; --ink:#e8f0f8; --muted:#9fb3c8;
+  --accent:#ffd23f; --accent-ink:#16263d; --line:#2f4560;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 "Instrument Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;line-height:1.05;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 1.25rem}
+header .wrap{display:flex;justify-content:space-between;align-items:center;padding-top:1.25rem;padding-bottom:1.25rem;gap:1rem;flex-wrap:wrap}
+.logo{font:800 1.4rem "Bricolage Grotesque",sans-serif;text-decoration:none}
+nav{display:flex;gap:1.25rem}
+nav a{text-decoration:none;color:var(--muted);font-weight:600}
+nav a:hover{color:var(--ink);text-decoration:underline}
+.hero{display:grid;grid-template-columns:1.5fr 1fr;gap:2.5rem;align-items:center;padding:3rem 0 4rem}
+.hero h1{font-size:clamp(2.6rem,7vw,5.2rem);font-weight:800;letter-spacing:-.02em}
+.hero p{max-width:34em;color:var(--muted);margin:1.25rem 0 1.75rem}
+.btn{display:inline-block;padding:.8rem 1.4rem;border-radius:999px;font-weight:600;text-decoration:none;border:2px solid var(--ink);cursor:pointer;font-family:inherit;font-size:1rem}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(.95)}
+.btn.ghost{background:transparent;color:var(--ink);margin-left:.5rem}
+.status{background:var(--surface);border:2px solid var(--ink);border-radius:1.25rem;padding:1.5rem}
+.status .dot{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;background:#2e9e5b;margin-right:.5rem}
+.status.closed .dot{background:#c0483a}
+.status h3{font-size:1.6rem;margin:.4rem 0}
+.status p{margin:0;color:var(--muted);font-size:.98rem}
+section{padding:3rem 0;border-top:2px solid var(--line)}
+section h2{font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:1.5rem}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:var(--surface);border-radius:1rem;overflow:hidden}
+th,td{text-align:left;padding:.9rem 1.1rem;border-bottom:1px solid var(--line)}
+th{font-weight:600;color:var(--muted)}
+td:last-child,th:last-child{text-align:right;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
+form{display:grid;gap:1rem}
+label{display:grid;gap:.3rem;font-weight:600}
+input,select{font:inherit;padding:.7rem .8rem;border-radius:.6rem;border:2px solid var(--line);background:var(--surface);color:var(--ink)}
+#thanks{display:none;background:var(--accent);color:var(--accent-ink);padding:1rem 1.2rem;border-radius:.8rem;font-weight:600}
+dl{display:grid;grid-template-columns:auto 1fr;gap:.5rem 1.5rem;margin:0}
+dt{font-weight:600}dd{margin:0;color:var(--muted)}
+footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem;border-top:2px solid var(--line)}
+@media (max-width:760px){
+  .hero,.cols{grid-template-columns:1fr}
+  .btn.ghost{margin:.5rem 0 0}
+}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top">Loose Spoke</a>
+    <nav aria-label="Main">
+      <a href="#prices">Prices</a>
+      <a href="#book">Book</a>
+      <a href="#hours">Hours</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <h1>Bikes fixed by people who ride them.</h1>
+      <p>Loose Spoke is a volunteer-run repair co-op. Drop off a bike, learn to fix it yourself, or just pay for a quick tune-up. Most repairs are done the same day.</p>
+      <a class="btn primary" href="#book">Book a repair</a>
+      <a class="btn ghost" href="#prices">See prices</a>
+    </div>
+    <aside class="status" id="status" aria-live="polite">
+      <span class="dot"></span><span id="state">Checking hours…</span>
+      <h3 id="wait">Today’s wait</h3>
+      <p id="note">Walk-ins welcome during open hours.</p>
+    </aside>
+  </div>
+
+  <section id="prices">
+    <div class="wrap">
+      <h2>Repair prices</h2>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Job</th><th>Time</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr><td>Flat tire repair</td><td>20 minutes</td><td>$12</td></tr>
+            <tr><td>Brake adjustment</td><td>30 minutes</td><td>$18</td></tr>
+            <tr><td>Chain and gear tune</td><td>1 hour</td><td>$35</td></tr>
+            <tr><td>Wheel true</td><td>45 minutes</td><td>$25</td></tr>
+            <tr><td>Full overhaul</td><td>2 days</td><td>$140</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="book">
+    <div class="wrap cols">
+      <div>
+        <h2>Book a repair</h2>
+        <p>Tell us what’s wrong and pick a day. We’ll text you to confirm a drop-off time.</p>
+        <div id="thanks" role="status"></div>
+      </div>
+      <form id="bookForm">
+        <label>Your name<input id="name" type="text" placeholder="Sam Rivera" autocomplete="name"></label>
+        <label>Bike type
+          <select id="bike"><option>Commuter</option><option>Mountain</option><option>Road</option><option>Kids’ bike</option></select>
+        </label>
+        <label>What needs fixing
+          <select id="job"><option>Flat tire</option><option>Brakes</option><option>Gears or chain</option><option>Wheel</option><option>Not sure</option></select>
+        </label>
+        <label>Preferred day<input id="day" type="date"></label>
+        <button class="btn primary" type="button" id="send">Request a slot</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="hours">
+    <div class="wrap cols">
+      <div>
+        <h2>Hours and location</h2>
+        <p>12 Canal Street, behind the old rail depot. Bike racks are out front.</p>
+      </div>
+      <dl>
+        <dt>Monday to Friday</dt><dd>10 am to 6 pm</dd>
+        <dt>Saturday</dt><dd>9 am to 4 pm</dd>
+        <dt>Sunday</dt><dd>Closed</dd>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">This is a dummy website. Loose Spoke Cycle Co-op isn’t a real business.</div>
+</footer>
+
+<script>
+(function(){
+  var hours={0:null,1:[10,18],2:[10,18],3:[10,18],4:[10,18],5:[10,18],6:[9,16]};
+  var names=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var now=new Date(), h=hours[now.getDay()], t=now.getHours()+now.getMinutes()/60;
+  var box=document.getElementById('status');
+  var state=document.getElementById('state'), wait=document.getElementById('wait'), note=document.getElementById('note');
+  function fmt(n){return (n%12||12)+(n<12?' am':' pm');}
+  if(h && t>=h[0] && t<h[1]){
+    state.textContent='Open now';
+    wait.textContent='About 25 minutes';
+    note.textContent='Open until '+fmt(h[1])+' today. Walk-ins welcome.';
+  } else {
+    box.classList.add('closed');
+    state.textContent='Closed right now';
+    wait.textContent='Back soon';
+    var d=now.getDay(), add=1;
+    if(h && t<h[0]){ add=0; }
+    var next=(d+add)%7;
+    while(!hours[next]){ add++; next=(d+add)%7; }
+    note.textContent='Next open: '+(add===0?'today':names[next])+' at '+fmt(hours[next][0])+'.';
+  }
+  document.getElementById('send').addEventListener('click',function(){
+    var n=document.getElementById('name').value.trim()||'there';
+    var job=document.getElementById('job').value.toLowerCase();
+    var out=document.getElementById('thanks');
+    out.textContent='Thanks, '+n+'. We got your request for '+job+' and will text you to confirm.';
+    out.style.display='block';
+  });
+})();
+</script>
+</body>
+</html>
